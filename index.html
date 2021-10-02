@@ -2,19 +2,44 @@
 <html>
 <head>
 	<title></title>
-	<meta charset="utf8">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
 </head>
 <body>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.5.14/p5.js"></script>
-	<script src="class.js"></script>
-    <script src="script.js"></script>
     <style>
         #legend {position: absolute;top: 0;right: 0;width: 800px;} .legend-color {width: 30px;height: 30px;} td {border: 1px solid black; font-size: 14px; padding-left: 5px;}
+        canvas {
+            display: block;
+            margin: 0 auto;
+        }
+
+        div {
+            display: inline-block;
+        }
+
+        h1 {
+            padding: 20px;
+            text-align: center;
+        }
+
+        body {
+            font-family: 'Noto Sans', sans-serif !important;
+        }
+        ul li{
+            list-style: none;
+            display: inline-block;
+        }
     </style>
 </head>
 
 <body>
-    <table id="legend">
+
+    <h1 style="color: tomato;">
+        Programming 3 <br/>
+        Եփրեմյան Ռաֆայել
+    </h1>
+    <table id="">
         <tr>
             <td class="legend-color">Գույն</td>
             <td>Անվանում</td>
@@ -22,6 +47,7 @@
             <td>Ուտում է</td>
             <td>Բազմանում է</td>
             <td>Սատկում է</td>
+            <td>Մնացել է</td>
         </tr>
 
         <tr>
@@ -31,47 +57,78 @@
             <td></td>
             <td></td>
             <td></td>
+            <td></td>
         </tr>
         <tr>
             <td class="legend-color" style="background-color:green"></td>
-            <td>Խոտ</td>
+            <td>Խոտ  (grass)</td>
             <td></td>
             <td></td>
             <td>Մոտակա 8 վանդակներում, 4 տակտը մեկ</td>
             <td></td>
+            <td id="grassCount"></td>
         </tr>
         <tr>
             <td class="legend-color" style="background-color:yellow"></td>
-            <td>Խոտակեր</td>
+            <td>Խոտակեր  (xotaker)</td>
             <td>Մոտակա 8 վանդակներում, էներգիան քչանում է 1֊ով</td>
             <td>Խոտերին, մոտակա 8 վանդակներում, շարժվելիս էներգիան ավելանում է 1֊ով</td>
             <td>Բազմանում է մոտակա տարածքներում, երբ էներգիան 10֊ից ավել է</td>
             <td>Սատկում է, երբ էներգիան փոքր է 0֊ից</td>
+            <td id="xotakerCount"></td>
         </tr>
         <tr>
             <td class="legend-color" style="background-color:red"></td>
-            <td>Գիշատիչ</td>
+            <td>Գիշատիչ  (gishatich)</td>
             <td>Մոտակա 8 վանդակներում, էներգիան քչանում է 2֊ով</td>
             <td>Խոտակերներին, մոտակա 8 վանդակներում, շարժվելիս էներգիան ավելանում է 2֊ով</td>
             <td>Բազմանում է մոտակա տարածքներում, երբ էներգիան 15֊ից ավել է</td>
             <td>Սատկում է, երբ էներգիան փոքր է 0֊ից</td>
+            <td id="gishatichCount"></td>
         </tr>
         <tr>
             <td class="legend-color" style="background-color:black"></td>
-            <td>Գիշատիչ ուտող</td>
+            <td>Գիշատիչ ուտող  (object1)</td>
             <td>Մոտակա 8 վանդակներում, էներգիան քչանում է 1֊ով</td>
             <td>Գիշատիչներին, մոտակա 8 վանդակներում, շարժվելիս էներգիան ավելանում է 1֊ով</td>
             <td>Բազմանում է մոտակա տարածքներում, երբ էներգիան 12֊ից ավել է</td>
             <td>Սատկում է, երբ էներգիան փոքր է 0֊ից</td>
+            <td id="object1Count"></td>
         </tr>
         <tr>
             <td class="legend-color" style="background-color:blue"></td>
-            <td>Նա, ով ուտում է խոտակերներներին, գիշատիչներին և գիշատիչ ուտողներին</td>
+            <td>Նա, ով ուտում է խոտակերներներին, գիշատիչներին և գիշատիչ ուտողներին  (object2)</td>
             <td>Մոտակա 8 վանդակներում, էներգիան քչանում է 1֊ով</td>
             <td>Խոտակերներին, մոտակա 8 վանդակներում, շարժվելիս էներգիան ավելանում է 1֊ով</td>
             <td>Բազմանում է մոտակա տարածքներում, երբ էներգիան 12֊ից ավել է</td>
             <td>Սատկում է, երբ էներգիան փոքր է 0֊ից</td>
-        </tr>
+            <td id="object2Count"></td>
+
     </table>
+
+    <ul>
+        <li>
+            <button onclick="kill()">Kill them all</button>
+        </li>
+        <li>
+            <button onclick="addGrass()" style="background-color: green; color: white;">Add grass</button>
+        </li>
+        <li>
+            <button onclick="addXotaker()" style="background-color: yellow;">Add xotaker</button>
+        </li>
+        <li>
+            <button onclick="addGishatich()" style="background-color: red; color: white;">Add gishatich</button>
+        </li>
+        <li>
+            <button onclick="addObject1()" style="background-color: black; color: white;">Add object1</button>
+        </li>
+        <li>
+            <button onclick="addObject2()" style="background-color: blue; color: white;">Add object2</button>
+        </li>
+    </ul>
+</tr>
+    <script src="p5.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="script.js"></script>
 </body>
 </html>
